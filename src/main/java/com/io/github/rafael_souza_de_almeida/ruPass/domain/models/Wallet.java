@@ -1,5 +1,7 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models;
 
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.IllegalTicketsQuantityException;
+
 import java.util.UUID;
 
 public class Wallet {
@@ -20,7 +22,13 @@ public class Wallet {
         this.balance = balance;
     }
 
-    public Wallet() {
+    public void addTickets(int quantity) {
+
+        if(quantity <= 0) {
+            throw new IllegalTicketsQuantityException("The number of recharge tickets must be greater than zero.");
+        }
+
+        this.balance += quantity;
 
     }
 

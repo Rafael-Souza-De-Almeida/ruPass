@@ -1,11 +1,10 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.exceptions;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.DuplicatedRegistrationException;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.InvalidBiometricException;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.InvalidCpfException;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -38,6 +37,30 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(IllegalTicketsQuantityException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalTicketsQuantityException(IllegalTicketsQuantityException ex, HttpServletRequest request) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(StudentNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleStudentNotFoundException(StudentNotFoundException ex, HttpServletRequest request) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     @ExceptionHandler(InvalidBiometricException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidBiometricException(InvalidBiometricException ex, HttpServletRequest request) {
         ApiErrorResponse response = new ApiErrorResponse(
@@ -47,6 +70,24 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
+
+        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+                .map(org.springframework.validation.FieldError::getDefaultMessage)
+                .collect(java.util.stream.Collectors.joining(", "));
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Validation error",
+                errorMessage,
+                request.getRequestURI()
+        );
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
