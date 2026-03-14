@@ -6,17 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.br.CPF;
 
 public record StudentRegistrationRequest(
-        @NotBlank(message = "full name is required.")
         String fullName,
-
-        @NotBlank(message = "Registration Number is required.")
         String registrationNumber,
-
-        @NotNull(message = "Student Type can not be null.")
         StudentType studentType,
-
-        @NotBlank(message = "CPF is required.")
-        @CPF(message = "Invalid CPF.")
         String cpf
 ) {
 }

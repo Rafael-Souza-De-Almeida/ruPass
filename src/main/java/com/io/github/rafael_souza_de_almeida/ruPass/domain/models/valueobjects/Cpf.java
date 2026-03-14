@@ -1,16 +1,18 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects;
 
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.InvalidCpfException;
+
 import java.util.Objects;
 
 public record Cpf(String value) {
 
     public Cpf {
-        Objects.requireNonNull(value, "O CPF não pode ser nulo.");
+        Objects.requireNonNull(value, "CPF can not be null.");
 
         value = value.replaceAll("\\D", "");
 
         if (!isValid(value)) {
-            throw new IllegalArgumentException("CPF inválido: " + value);
+            throw new InvalidCpfException("Invalid CPF: " + value);
         }
     }
 
