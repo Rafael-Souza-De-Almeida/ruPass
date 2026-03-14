@@ -18,7 +18,7 @@ public class RechargeWalletService implements RechargeWalletUseCase {
         Student student = studentRepository.findById(command.studentId())
                 .orElseThrow(() -> new StudentNotFoundException("Student Not found."));
 
-        student.getWallet().addTickets(command.amount());
+        student.getWallet().addTickets(command.breakfastQuantity(), command.lunchDinnerQuantity());
 
         studentRepository.save(student);
 

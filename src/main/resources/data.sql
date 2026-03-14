@@ -11,9 +11,10 @@ VALUES (
 );
 
 
-INSERT INTO wallets (id, student_id, balance)
+INSERT INTO wallets (id, student_id, breakfast_balance, lunch_dinner_balance)
 VALUES (
     CAST('a1b2c3d4-e5f6-4a5b-8c9d-0123456789ab' AS UUID),
     CAST('f67d12f4-6cbd-4f3c-882e-148be349b688' AS UUID),
+    0,
     0
 );

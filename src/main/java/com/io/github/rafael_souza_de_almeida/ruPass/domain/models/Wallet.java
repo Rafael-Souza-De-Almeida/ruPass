@@ -1,6 +1,7 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.IllegalTicketsQuantityException;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.TicketCategory;
 
 import java.util.UUID;
 
@@ -8,27 +9,35 @@ public class Wallet {
 
     private UUID id;
     private UUID studentId;
-    private int balance;
+    private int breakfastBalance;
+    private int lunchDinnerBalance;
 
     public Wallet(UUID studentId) {
         this.id = UUID.randomUUID();
         this.studentId = studentId;
-        this.balance = 0;
+        this.lunchDinnerBalance = 0;
+        this.breakfastBalance = 0;
     }
 
-    public Wallet(UUID id, UUID studentId, int balance) {
+    public Wallet(UUID id, UUID studentId, int breakfastBalance, int lunchDinnerBalance) {
         this.id = id;
         this.studentId = studentId;
-        this.balance = balance;
+        this.breakfastBalance = breakfastBalance;
+        this.lunchDinnerBalance = lunchDinnerBalance;
     }
 
-    public void addTickets(int quantity) {
+    public void addTickets(int breakfastAmount, int lunchDinnerAmount) {
 
-        if(quantity <= 0) {
-            throw new IllegalTicketsQuantityException("The number of recharge tickets must be greater than zero.");
+        if (breakfastAmount < 0 || lunchDinnerAmount < 0) {
+            throw new IllegalArgumentException("Quantities cannot be negative.");
         }
 
-        this.balance += quantity;
+        if (breakfastAmount > 0) {
+            this.breakfastBalance += breakfastAmount;
+        }
+        if (lunchDinnerAmount > 0) {
+            this.lunchDinnerBalance += lunchDinnerAmount;
+        }
 
     }
 
@@ -41,7 +50,11 @@ public class Wallet {
         return studentId;
     }
 
-    public int getBalance() {
-        return balance;
+    public int getBreakfastBalance() {
+        return breakfastBalance;
+    }
+
+    public int getLunchDinnerBalance() {
+        return lunchDinnerBalance;
     }
 }

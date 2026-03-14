@@ -21,6 +21,10 @@ public class WalletEntity {
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private StudentEntity studentEntity;
 
-    private int balance;
+    @Column(name = "breakfast_balance")
+    private int breakfastBalance;
+
+    @Column(name = "lunch_dinner_balance")
+    private int lunchDinnerBalance;
 
 }

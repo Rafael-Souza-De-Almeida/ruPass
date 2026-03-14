@@ -52,11 +52,14 @@ public class StudentController {
     public ResponseEntity<RechargeWalletResponse> rechargeWallet(@PathVariable("id") UUID studentId,
                                                                  @Valid @RequestBody RechargeWalletRequest request) {
 
-        RechargeWalletCommand rechargeWalletCommand = new RechargeWalletCommand(studentId, request.amount());
+        int breakfast = request.breakfastAmount() != null ? request.breakfastAmount() : 0;
+        int lunch = request.lunchDinnerAmount() != null ? request.lunchDinnerAmount() : 0;
+
+        RechargeWalletCommand rechargeWalletCommand = new RechargeWalletCommand(studentId, breakfast, lunch);
 
         Wallet rechargedWallet = rechargeWalletUseCase.execute(rechargeWalletCommand);
 
-        RechargeWalletResponse response = new RechargeWalletResponse(rechargedWallet.getBalance());
+        RechargeWalletResponse response = new RechargeWalletResponse(rechargedWallet.getBreakfastBalance(), rechargedWallet.getLunchDinnerBalance());
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
 

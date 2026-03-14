@@ -21,7 +21,8 @@ public class StudentPersistenceMapper {
             walletDomain = new Wallet(
                     studentEntity.getWallet().getId(),
                     studentEntity.getId(),
-                    studentEntity.getWallet().getBalance()
+                    studentEntity.getWallet().getBreakfastBalance(),
+                    studentEntity.getWallet().getLunchDinnerBalance()
             );
         }
 
@@ -55,7 +56,8 @@ public class StudentPersistenceMapper {
         if (domain.getWallet() != null) {
             WalletEntity walletEntity = new WalletEntity();
             walletEntity.setId(domain.getWallet().getId());
-            walletEntity.setBalance(domain.getWallet().getBalance());
+            walletEntity.setBreakfastBalance(domain.getWallet().getBreakfastBalance());
+            walletEntity.setLunchDinnerBalance(domain.getWallet().getLunchDinnerBalance());
 
             walletEntity.setStudentEntity(entity);
 
