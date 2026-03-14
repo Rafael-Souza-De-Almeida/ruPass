@@ -40,9 +40,14 @@ public class Student {
         this.faceBiometrics = faceBiometrics;
     }
 
+    public Student() {
+
+    }
+
     public void registerFaceBiometrics(String token) {
         this.faceBiometrics = new FaceBiometrics(token);
     }
+
 
 
 

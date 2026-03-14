@@ -1,7 +1,7 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.application.services;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.dto.RegisterStudentDto;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
@@ -15,17 +15,17 @@ public class RegisterStudentService implements RegisterStudentUseCase {
     private final StudentRegistrationValidator validator;
 
     @Override
-    public Student execute(RegisterStudentDto dto) {
+    public Student execute(RegisterStudentCommand command) {
 
-        Cpf cpf = new Cpf(dto.cpf());
+        Cpf cpf = new Cpf(command.cpf());
 
-        validator.validateNewStudent(dto.registrationNumber(), cpf);
+        validator.validateNewStudent(command.registrationNumber(), cpf);
 
         Student student = new Student(
-                dto.fullName(),
-                dto.registrationNumber(),
-                dto.studentType(),
-                dto.cpf()
+                command.fullName(),
+                command.registrationNumber(),
+                command.studentType(),
+                command.cpf()
         );
 
         return studentRepository.save(student);

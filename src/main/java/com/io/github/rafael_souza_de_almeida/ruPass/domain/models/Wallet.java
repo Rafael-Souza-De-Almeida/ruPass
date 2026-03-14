@@ -20,11 +20,20 @@ public class Wallet {
         this.balance = balance;
     }
 
+    public Wallet() {
+
+    }
+
+
     public UUID getId() {
         return id;
     }
 
     public UUID getStudentId() {
         return studentId;
+    }
+
+    public int getBalance() {
+        return balance;
     }
 }
