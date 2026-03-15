@@ -2,6 +2,7 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.config;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.CreateRechargeOrderService;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.ProcessPaymentService;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.services.payment.PaymentStatusProcessor;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.ProcessPaymentUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
@@ -9,6 +10,8 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRep
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.TicketPricingService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class RechargeOrderConfig {
@@ -29,8 +32,9 @@ public class RechargeOrderConfig {
     @Bean
     public ProcessPaymentUseCase processPaymentUseCase(
             RechargeOrderRepository orderRepository,
-            StudentRepository studentRepository) {
-        return new ProcessPaymentService(orderRepository, studentRepository);
+            StudentRepository studentRepository,
+            List<PaymentStatusProcessor> paymentStatusProcessors) {
+        return new ProcessPaymentService(orderRepository, studentRepository, paymentStatusProcessors);
     }
 
 }

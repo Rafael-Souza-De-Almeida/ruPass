@@ -1,5 +1,6 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.application.services;
 
+import com.io.github.rafael_souza_de_almeida.ruPass.application.services.payment.PaymentStatusProcessor;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.ProcessPaymentUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.ProcessPaymentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.OrderNotFoundException;
@@ -12,36 +13,30 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRep
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Slf4j
 public class ProcessPaymentService implements ProcessPaymentUseCase {
 
     private final RechargeOrderRepository rechargeOrderRepository;
     private final StudentRepository studentRepository;
+    private final List<PaymentStatusProcessor> processors;
 
     @Override
     public void execute(ProcessPaymentCommand command) {
 
-        if(!"APPROVED".equalsIgnoreCase(command.status())) {
-            return;
-        }
-
         RechargeOrder order = rechargeOrderRepository.findById(command.orderId())
                 .orElseThrow(() -> new OrderNotFoundException("Order not found."));
 
-        order.markAsApproved();
 
-        order.assignTransactionId(command.transactionId());
+        PaymentStatusProcessor processor = processors.stream().filter(p -> p.supports(command.status()))
+                .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Unknown status: " + command.status()));
 
-        Student student = studentRepository.findById(order.getStudentId())
-                .orElseThrow(() -> new StudentNotFoundException("Student not found."));
-
-        student.getWallet().addTickets(order.getBreakfastQuantity(), order.getLunchDinnerQuantity());
+        processor.process(order, command.transactionId());
 
         rechargeOrderRepository.save(order);
-        studentRepository.save(student);
-
-        log.info("Payment processed! balance added to student's wallet");
 
     }
 }
