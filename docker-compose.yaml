@@ -1,0 +1,12 @@
+services:
+  wiremock:
+    image: wiremock/wiremock:3.5.2
+    container_name: rupass-payment-mock
+    ports:
+      - "8081:8080"
+    command:
+      - "--global-response-templating"
+      - "--extension"
+      - "org.wiremock.webhooks.Webhooks"
+    volumes:
+      - ./wiremock-data:/home/wiremock

@@ -7,12 +7,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record RechargeWalletRequest(
 
-        @NotNull(message = "Breakfast ticket quantity is required (can be 0).")
-        @Min(value = 0, message = "Breakfast quantity cannot be negative.")
+        @NotNull(message = "Breakfast ticket quantity is required (can be 0)")
+        @Min(value = 0, message = "Breakfast quantity cannot be negative")
         Integer breakfastAmount,
 
-        @NotNull(message = "Lunch/dinner ticket quantity is required (can be 0).")
-        @Min(value = 0, message = "Lunch/dinner quantity cannot be negative.")
+        @NotNull(message = "Lunch/dinner ticket quantity is required (can be 0)")
+        @Min(value = 0, message = "Lunch/dinner quantity cannot be negative")
         Integer lunchDinnerAmount
 
 ) {

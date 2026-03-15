@@ -1,9 +1,10 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.controllers;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RechargeWalletUseCase;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeWalletCommand;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeOrderCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Wallet;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.dto.RechargeWalletRequest;
@@ -24,7 +25,7 @@ import java.util.UUID;
 public class StudentController {
 
     private final RegisterStudentUseCase registerStudentUseCase;
-    private final RechargeWalletUseCase rechargeWalletUseCase;
+    private final CreateRechargeOrderUseCase createRechargeOrderUseCase;
 
     @PostMapping
     public ResponseEntity<StudentRegistrationResponse> registerStudent(@Valid @RequestBody StudentRegistrationRequest request) {
@@ -48,18 +49,22 @@ public class StudentController {
 
     }
 
-    @PostMapping("/{id}/wallet/recharge")
-    public ResponseEntity<RechargeWalletResponse> rechargeWallet(@PathVariable("id") UUID studentId,
+    @PostMapping("/{id}/orders")
+    public ResponseEntity<RechargeWalletResponse> createRechargeOrder(@PathVariable("id") UUID studentId,
                                                                  @Valid @RequestBody RechargeWalletRequest request) {
 
         int breakfast = request.breakfastAmount() != null ? request.breakfastAmount() : 0;
         int lunch = request.lunchDinnerAmount() != null ? request.lunchDinnerAmount() : 0;
 
-        RechargeWalletCommand rechargeWalletCommand = new RechargeWalletCommand(studentId, breakfast, lunch);
+        RechargeOrderCommand rechargeOrderCommand = new RechargeOrderCommand(studentId, breakfast, lunch);
 
-        Wallet rechargedWallet = rechargeWalletUseCase.execute(rechargeWalletCommand);
+        RechargeOrder order = createRechargeOrderUseCase.execute(rechargeOrderCommand);
 
-        RechargeWalletResponse response = new RechargeWalletResponse(rechargedWallet.getBreakfastBalance(), rechargedWallet.getLunchDinnerBalance());
+        RechargeWalletResponse response = new RechargeWalletResponse(
+                order.getId(),
+                order.getTotalAmount(),
+                order.getOrderStatus().toString(),
+                "Order created sucessfully. Waiting for payment.");
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
 

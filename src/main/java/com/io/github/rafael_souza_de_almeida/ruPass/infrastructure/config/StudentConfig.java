@@ -1,8 +1,8 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.config;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.application.services.RechargeWalletService;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.services.CreateRechargeOrderService;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.RegisterStudentService;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RechargeWalletUseCase;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentRegistrationValidator;
@@ -22,10 +22,5 @@ public class StudentConfig {
             StudentRepository studentRepository,
             StudentRegistrationValidator validator) {
         return new RegisterStudentService(studentRepository, validator);
-    }
-
-    @Bean
-    public RechargeWalletUseCase rechargeWalletUseCase(StudentRepository studentRepository) {
-        return new RechargeWalletService(studentRepository);
     }
 }

@@ -1,0 +1,34 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/v1/payments/pix"
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "transactionId": "tx-{{randomValue length=10 type='ALPHANUMERIC'}}",
+      "qrCode": "00020101021126580014br.gov.bcb.pix0136PIX-COPIA-E-COLA-FALSO",
+      "status": "WAITING_PAYMENT"
+    }
+  },
+  "serveEventListeners": [
+    {
+      "name": "webhook",
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8080/api/v1/webhooks/pix",
+        "delay": {
+          "type": "fixed",
+          "milliseconds": 5000
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": "{ \"orderId\": \"{{{jsonPath originalRequest.body '$.orderId'}}}\", \"status\": \"APPROVED\" }"
+      }
+    }
+  ]
+}

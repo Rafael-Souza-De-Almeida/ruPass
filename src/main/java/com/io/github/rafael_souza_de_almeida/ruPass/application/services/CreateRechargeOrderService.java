@@ -1,11 +1,10 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.application.services;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RechargeWalletUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeWalletCommand;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeOrderCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.StudentNotFoundException;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Wallet;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.TicketPricingService;
@@ -14,14 +13,14 @@ import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
 
 @RequiredArgsConstructor
-public class RechargeWalletService implements RechargeWalletUseCase {
+public class CreateRechargeOrderService implements CreateRechargeOrderUseCase {
 
     private final StudentRepository studentRepository;
     private final RechargeOrderRepository rechargeOrderRepository;
     private final TicketPricingService ticketPricingService;
 
     @Override
-    public Wallet execute(RechargeWalletCommand command) {
+    public RechargeOrder execute(RechargeOrderCommand command) {
         Student student = studentRepository.findById(command.studentId())
                 .orElseThrow(() -> new StudentNotFoundException("Student Not found."));
 
@@ -35,17 +34,14 @@ public class RechargeWalletService implements RechargeWalletUseCase {
 
         RechargeOrder order = new RechargeOrder(
                 student.getId(),
-
                 command.breakfastQuantity(),
                 command.lunchDinnerQuantity(),
                 totalAmount
         );
 
-        student.getWallet().addTickets(command.breakfastQuantity(), command.lunchDinnerQuantity());
+       rechargeOrderRepository.save(order);
 
-        studentRepository.save(student);
-
-        return student.getWallet();
+       return order;
 
     }
 }
