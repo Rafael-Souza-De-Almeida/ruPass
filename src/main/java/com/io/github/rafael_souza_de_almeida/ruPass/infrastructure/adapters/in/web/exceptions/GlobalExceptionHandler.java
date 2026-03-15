@@ -2,6 +2,7 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicatedRegistrationException.class)
@@ -75,6 +77,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalStudentType.class)
     public ResponseEntity<ApiErrorResponse> handleIllegalStudentTypeException(IllegalStudentType ex, HttpServletRequest request) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleOrderNotFoundException(OrderNotFoundException ex, HttpServletRequest request) {
+
+        log.error("[WEBHOOK ERROR] Payment attempt for a non-existent order: {}", ex.getMessage());
+
         ApiErrorResponse response = new ApiErrorResponse(
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),

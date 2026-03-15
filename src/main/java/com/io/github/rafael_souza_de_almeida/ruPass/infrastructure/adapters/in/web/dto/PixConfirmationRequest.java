@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record PixConfirmationRequest(
         UUID orderId,
-        String status
+        String status,
+        String transactionId
 ) {
 }
