@@ -1,6 +1,6 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.IllegalTicketsQuantityException;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.InsufficientTicketBalanceException;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.TicketCategory;
 
 import java.util.UUID;
@@ -37,6 +37,31 @@ public class Wallet {
         }
         if (lunchDinnerAmount > 0) {
             this.lunchDinnerBalance += lunchDinnerAmount;
+        }
+
+    }
+
+    public void consumeTicket(TicketCategory category) {
+
+        if(category == TicketCategory.BREAKFAST) {
+
+            if(this.breakfastBalance <= 0) {
+                throw new InsufficientTicketBalanceException("Insufficient balance for Breakfast.");
+            }
+
+            this.breakfastBalance--;
+        }
+
+        else if(category == TicketCategory.LUNCH_DINNER) {
+            if(this.lunchDinnerBalance <= 0) {
+                throw new InsufficientTicketBalanceException("Insufficient balance for Lunch/Dinner");
+            }
+
+            this.lunchDinnerBalance--;
+        }
+
+        else {
+            throw new IllegalArgumentException("Unknown ticket category.");
         }
 
     }
