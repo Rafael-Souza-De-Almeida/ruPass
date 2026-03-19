@@ -19,8 +19,12 @@ public class Student {
 
     public Student(String fullName, String registrationNumber, StudentType studentType, String cpfRawString) {
 
-        Objects.requireNonNull(fullName, "Name can not be blank.");
-        Objects.requireNonNull(registrationNumber, "Registration number can not be blank.");
+        if (fullName == null || fullName.isBlank()) {
+            throw new IllegalArgumentException("Name can not be blank.");
+        }
+        if (registrationNumber == null || registrationNumber.isBlank()) {
+            throw new IllegalArgumentException("Registration number can not be blank.");
+        }
 
         this.id = UUID.randomUUID();
         this.fullName = fullName;

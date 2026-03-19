@@ -65,9 +65,7 @@ public class RechargeOrder {
 
     public void markAsCancelled() {
 
-        if(this.orderStatus == OrderStatus.APPROVED) {
-            throw new IllegalStateException("This order was already paid.");
-        }
+        //To-do: Return the payment when it´s already approved.
 
         if(this.orderStatus == OrderStatus.REJECTED) {
             throw new IllegalStateException("This order was already rejected.");

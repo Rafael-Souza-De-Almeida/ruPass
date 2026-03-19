@@ -59,4 +59,38 @@ public class RechargeOrderTest {
         assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.APPROVED);
     }
 
+    @Test
+    @DisplayName("Should change order status to REJECTED when order is pending")
+    void shouldMarkAsRejectedSuccessfully() {
+        RechargeOrder order = new RechargeOrder(UUID.randomUUID(), 2, 0, new BigDecimal("1.40"));
+
+        order.markAsRejected();
+
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.REJECTED);
+    }
+
+    @Test
+    @DisplayName("Should change order status to CANCELLED when order is pending")
+    void shouldMarkAsCancelledSuccessfully() {
+        RechargeOrder order = new RechargeOrder(UUID.randomUUID(), 2, 0, new BigDecimal("1.40"));
+
+        order.markAsCancelled();
+
+        assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.CANCELLED);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when trying to approve an already cancelled order")
+    void shouldThrowExceptionWhenApprovingCancelledOrder() {
+
+        RechargeOrder order = new RechargeOrder(UUID.randomUUID(), 0, 1, new BigDecimal("1.45"));
+
+        order.markAsCancelled();
+
+        assertThatThrownBy(order::markAsApproved).isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Only pending order can be approved");
+
+    }
+
+
 }
