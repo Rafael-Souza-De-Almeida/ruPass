@@ -6,6 +6,8 @@ import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.mappers.RechargeOrderPersistenceMapper;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.repositories.RechargeOrderSpringDataRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -26,5 +28,11 @@ public class RechargeOrderPersistenceAdapter implements RechargeOrderRepository 
     @Override
     public Optional<RechargeOrder> findById(UUID id) {
         return repository.findById(id).map(RechargeOrderPersistenceMapper::toDomain);
+    }
+
+    @Override
+    public Page<RechargeOrder> findByIdOrderByCreatedAtDesc(UUID studentId, Pageable pageable) {
+        return repository.findByStudentIdOrderByCreatedAtDesc(studentId, pageable)
+                .map(RechargeOrderPersistenceMapper::toDomain);
     }
 }
