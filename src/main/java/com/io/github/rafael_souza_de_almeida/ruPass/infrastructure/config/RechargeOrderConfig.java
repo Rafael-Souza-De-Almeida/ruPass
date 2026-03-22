@@ -1,8 +1,10 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.config;
 
+import com.io.github.rafael_souza_de_almeida.ruPass.application.services.CancelExpiredOrderService;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.CreateRechargeOrderService;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.ProcessPaymentService;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.services.payment.PaymentStatusProcessor;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CancelExpiredOrderUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.ProcessPaymentUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
@@ -35,6 +37,11 @@ public class RechargeOrderConfig {
             StudentRepository studentRepository,
             List<PaymentStatusProcessor> paymentStatusProcessors) {
         return new ProcessPaymentService(orderRepository, studentRepository, paymentStatusProcessors);
+    }
+
+    @Bean
+    public CancelExpiredOrderUseCase cancelExpiredOrderUseCase(RechargeOrderRepository rechargeOrderRepository) {
+        return new CancelExpiredOrderService(rechargeOrderRepository);
     }
 
 }
