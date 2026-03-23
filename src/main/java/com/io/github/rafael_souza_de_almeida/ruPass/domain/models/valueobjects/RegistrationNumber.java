@@ -10,8 +10,8 @@ public record RegistrationNumber(String value) {
             throw new EmptyRegistrationNumberException("Registration number cannot be empty.");
         }
 
-         if (!value.matches("\\d{10}")) {
-             throw new InvalidRegistrationNumberFormatException("Registration must be exactly 10 digits.");
-         }
+         //if (!value.matches("\\d{10}")) {
+           //  throw new InvalidRegistrationNumberFormatException("Registration must be exactly 10 digits.");
+         //}
     }
 }

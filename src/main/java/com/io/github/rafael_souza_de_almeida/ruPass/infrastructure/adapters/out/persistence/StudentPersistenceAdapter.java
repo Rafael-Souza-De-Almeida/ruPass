@@ -2,6 +2,7 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.entities.StudentEntity;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.mappers.StudentPersistenceMapper;
@@ -38,6 +39,12 @@ public class StudentPersistenceAdapter implements StudentRepository {
     @Override
     public Optional<Student> findById(UUID id) {
         return repository.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<Student> findByEmail(Email email) {
+        return repository.findByEmail(email.value())
+                .map(mapper::toDomain);
     }
 
     @Override

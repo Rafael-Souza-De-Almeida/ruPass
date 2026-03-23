@@ -11,6 +11,7 @@ StudentSpringDataRepository extends JpaRepository<StudentEntity, UUID> {
 
     Optional<StudentEntity> findByRegistrationNumber(String registrationNumber);
     Optional<StudentEntity> findByCpf(String cpf);
+    Optional<StudentEntity> findByEmail(String email);
 
     boolean existsByRegistrationNumber(String registrationNumber);
     boolean existsByCpf(String cpf);

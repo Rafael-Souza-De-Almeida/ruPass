@@ -24,31 +24,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private final RegisterStudentUseCase registerStudentUseCase;
     private final CreateRechargeOrderUseCase createRechargeOrderUseCase;
     private final StudentOrderHistoryUseCase studentOrderHistoryUseCase;
-
-    @PostMapping
-    public ResponseEntity<StudentRegistrationResponse> registerStudent(@Valid @RequestBody StudentRegistrationRequest request) {
-
-        RegisterStudentCommand studentCommand = new RegisterStudentCommand(
-                request.fullName(),
-                request.registrationNumber(),
-                request.studentType(),
-                request.cpf()
-        );
-
-        Student savedStudent = registerStudentUseCase.execute(studentCommand);
-
-        StudentRegistrationResponse response = new StudentRegistrationResponse(
-                savedStudent.getId(),
-                savedStudent.getFullName(),
-                savedStudent.getRegistrationNumber()
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
-    }
 
     @PostMapping("/{id}/orders")
     public ResponseEntity<RechargeWalletResponse> createRechargeOrder(@PathVariable("id") UUID studentId,
