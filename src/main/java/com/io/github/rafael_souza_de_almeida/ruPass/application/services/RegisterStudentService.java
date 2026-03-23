@@ -23,6 +23,8 @@ public class RegisterStudentService implements RegisterStudentUseCase {
 
         Student student = new Student(
                 command.fullName(),
+                command.email(),
+                command.password(),
                 command.registrationNumber(),
                 command.studentType(),
                 command.cpf()

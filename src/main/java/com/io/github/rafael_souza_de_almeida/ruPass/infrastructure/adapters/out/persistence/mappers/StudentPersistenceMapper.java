@@ -2,8 +2,12 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Wallet;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Role;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.StudentType;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.entities.StudentEntity;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.persistence.entities.WalletEntity;
 import org.springframework.stereotype.Component;
@@ -28,15 +32,22 @@ public class StudentPersistenceMapper {
 
 
         Cpf cpfDomain = new Cpf(studentEntity.getCpf());
+        Email emailDomain = new Email(studentEntity.getEmail());
+        Password passwordDomain = new Password(studentEntity.getPassword());
+        RegistrationNumber registrationNumberDomain = new RegistrationNumber(studentEntity.getRegistrationNumber());
+
 
         return new Student(
                 studentEntity.getId(),
                 studentEntity.getFullName(),
-                studentEntity.getRegistrationNumber(),
+                emailDomain,
+                passwordDomain,
+                registrationNumberDomain,
                 StudentType.valueOf(studentEntity.getStudentType()),
                 walletDomain,
                 cpfDomain,
-                null
+                null,
+                Role.valueOf(studentEntity.getRole())
         );
     }
 
@@ -48,7 +59,7 @@ public class StudentPersistenceMapper {
 
         entity.setId(domain.getId());
         entity.setFullName(domain.getFullName());
-        entity.setRegistrationNumber(domain.getRegistrationNumber());
+        entity.setRegistrationNumber(domain.getRegistrationNumber().value());
         entity.setStudentType(domain.getStudentType().toString());
         entity.setCpf(domain.getCpf().value());
 

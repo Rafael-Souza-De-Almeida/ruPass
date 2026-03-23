@@ -115,6 +115,71 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidEmailException(InvalidEmailException ex, HttpServletRequest request) {
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(EmptyEmailException.class)
+    public ResponseEntity<ApiErrorResponse> handleEmptyEmailException(EmptyEmailException ex, HttpServletRequest request) {
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(EmptyRegistrationNumberException.class)
+    public ResponseEntity<ApiErrorResponse> handleEmptyRegistrationNumberException(EmptyRegistrationNumberException ex, HttpServletRequest request) {
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(EmptyPasswordException.class)
+    public ResponseEntity<ApiErrorResponse> handleEmptyPasswordException(EmptyPasswordException ex, HttpServletRequest request) {
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(InvalidRegistrationNumberFormatException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidRegistrationNumberFormatException(InvalidRegistrationNumberFormatException ex, HttpServletRequest request) {
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
     @ExceptionHandler(CafeteriaClosedException.class)
     public ResponseEntity<ApiErrorResponse> handleCafeteriaClosedException(CafeteriaClosedException ex, HttpServletRequest request) {
 
