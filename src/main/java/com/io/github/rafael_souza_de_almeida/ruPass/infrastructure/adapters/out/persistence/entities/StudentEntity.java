@@ -22,7 +22,7 @@ public class StudentEntity {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Email
     private String email;
 
