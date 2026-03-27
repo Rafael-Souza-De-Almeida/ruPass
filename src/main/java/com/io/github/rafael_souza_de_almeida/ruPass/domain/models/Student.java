@@ -20,15 +20,19 @@ public class Student {
     private FaceBiometrics faceBiometrics;
     private Role role;
 
-    public Student(String fullName, String emailRawString, String passwordRawString, String registrationNumberRawString, StudentType studentType, String cpfRawString) {
+    public Student(String fullName, Email email, Password password, RegistrationNumber registrationNumber, StudentType studentType, Cpf cpf) {
+
+        if(fullName.isBlank() || fullName.isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be blank.");
+        }
 
         this.id = UUID.randomUUID();
         this.fullName = fullName;
-        this.email = new Email(emailRawString);
-        this.password = new Password(passwordRawString);
-        this.registrationNumber = new RegistrationNumber(registrationNumberRawString);
+        this.email = email;
+        this.password = password;
+        this.registrationNumber = registrationNumber;
         this.studentType = studentType;
-        this.cpf = new Cpf(cpfRawString);
+        this.cpf = cpf;
         this.wallet = new Wallet(this.id);
         this.role = Role.ROLE_STUDENT;
     }

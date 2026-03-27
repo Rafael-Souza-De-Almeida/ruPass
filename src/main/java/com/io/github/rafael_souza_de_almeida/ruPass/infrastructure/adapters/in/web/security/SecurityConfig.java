@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -25,6 +27,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Value("${jwt.public.key}")
@@ -41,9 +44,14 @@ public class SecurityConfig {
                         auth -> auth.requestMatchers("/api/v1/auth/sign_in").permitAll()
                                 .requestMatchers("/api/v1/auth/sign_up").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
+
+                                .requestMatchers("/api/v1/webhooks/**").permitAll()
+
+                                .requestMatchers("/api/v1/consumptions").permitAll()
+
                                 .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(conf -> conf.jwt(Customizer.withDefaults()));
 

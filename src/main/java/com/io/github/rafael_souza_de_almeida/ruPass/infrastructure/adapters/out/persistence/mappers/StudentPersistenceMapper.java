@@ -59,9 +59,13 @@ public class StudentPersistenceMapper {
 
         entity.setId(domain.getId());
         entity.setFullName(domain.getFullName());
+        entity.setPassword(domain.getPassword().value());
+        entity.setEmail(domain.getEmail().value());
         entity.setRegistrationNumber(domain.getRegistrationNumber().value());
         entity.setStudentType(domain.getStudentType().toString());
         entity.setCpf(domain.getCpf().value());
+        entity.setRole(domain.getRole().toString());
+
 
 
         if (domain.getWallet() != null) {

@@ -6,6 +6,10 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.OrderStatus;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.StudentType;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.TicketPricingService;
@@ -39,11 +43,16 @@ public class CreateRechargeOrderTest {
     @InjectMocks
     private CreateRechargeOrderService createRechargeOrderService;
 
+    private final Cpf VALID_CPF = new Cpf("12345678909");
+    private final Email VALID_EMAIL = new Email("test@gmail.com");
+    private final Password VALID_PASSWORD = new Password("12345678");
+    private final RegistrationNumber VALID_REGISTRATION = new RegistrationNumber("202200057689");
+
     @Test
     @DisplayName("Should create a recharge order sucessfully")
     void shouldCreateARechargeOrderSuccessfully(){
 
-        Student student = new Student("Maria", "123456789", StudentType.UNDERGRADUATE, "12345678909");
+        Student student = new Student("Maria", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, VALID_CPF);
 
         UUID studentId = student.getId();
 
