@@ -9,14 +9,14 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.E
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentRegistrationValidator;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentValidator;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class RegisterStudentService implements RegisterStudentUseCase {
 
     private final StudentRepository studentRepository;
-    private final StudentRegistrationValidator validator;
+    private final StudentValidator validator;
     private final PasswordHashPort passwordHasher;
 
     @Override

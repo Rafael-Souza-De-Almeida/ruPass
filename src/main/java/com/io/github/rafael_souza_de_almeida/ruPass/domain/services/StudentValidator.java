@@ -6,11 +6,11 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.E
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 
-public class StudentRegistrationValidator {
+public class StudentValidator {
 
     private final StudentRepository studentRepository;
 
-    public StudentRegistrationValidator(StudentRepository studentRepository) {
+    public StudentValidator(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
@@ -28,5 +28,11 @@ public class StudentRegistrationValidator {
             throw new DuplicatedRegistrationException("Email already registered");
         }
 
+    }
+
+    public void validateExistingStudent(Email email) {
+        if(studentRepository.existsByEmail(email)) {
+            throw new DuplicatedRegistrationException("Email already registered");
+        }
     }
 }

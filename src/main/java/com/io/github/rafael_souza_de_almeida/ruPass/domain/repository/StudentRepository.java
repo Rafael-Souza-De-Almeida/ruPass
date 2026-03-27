@@ -17,4 +17,5 @@ public interface StudentRepository {
     boolean existsByCpf(Cpf cpf);
     boolean existsByEmail(Email email);
 
+
 }

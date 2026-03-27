@@ -9,7 +9,7 @@ import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.Registe
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.StudentOrderHistoryUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentRegistrationValidator;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentValidator;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.security.PasswordHashAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class StudentConfig {
 
     @Bean
-    public StudentRegistrationValidator studentRegistrationValidator(StudentRepository studentRepository) {
-        return new StudentRegistrationValidator(studentRepository);
+    public StudentValidator studentRegistrationValidator(StudentRepository studentRepository) {
+        return new StudentValidator(studentRepository);
     }
 
     @Bean
@@ -36,7 +36,7 @@ public class StudentConfig {
     @Bean
     public RegisterStudentUseCase registerStudentUseCase(
             StudentRepository studentRepository,
-            StudentRegistrationValidator validator,
+            StudentValidator validator,
             PasswordHashPort passwordHashPort) {
         return new RegisterStudentService(studentRepository, validator, passwordHashPort);
     }

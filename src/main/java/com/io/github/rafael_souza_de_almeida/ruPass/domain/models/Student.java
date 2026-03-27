@@ -50,6 +50,26 @@ public class Student {
         this.role = role;
     }
 
+    public Student() {
+    }
+
+    public void updateProfile(String newFullName, Email newEmail, Password newPassword) {
+
+        if(newFullName != null && !newFullName.isBlank()) {
+            this.fullName = newFullName;
+        }
+
+        if (newEmail != null) {
+            this.email = newEmail;
+        }
+
+        if (newPassword != null) {
+            this.password = newPassword;
+        } //To do - Implement Email and password verification
+
+
+    }
+
     public void registerFaceBiometrics(String token) {
         this.faceBiometrics = new FaceBiometrics(token);
     }
