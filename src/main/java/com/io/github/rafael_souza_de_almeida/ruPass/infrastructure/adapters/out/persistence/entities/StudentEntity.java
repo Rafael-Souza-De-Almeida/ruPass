@@ -26,6 +26,7 @@ public class StudentEntity {
     @Email
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(name = "registration_number", nullable = false, unique = true)
@@ -37,6 +38,7 @@ public class StudentEntity {
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
+    @Column(nullable = false)
     private String role;
 
     @OneToOne(mappedBy = "studentEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

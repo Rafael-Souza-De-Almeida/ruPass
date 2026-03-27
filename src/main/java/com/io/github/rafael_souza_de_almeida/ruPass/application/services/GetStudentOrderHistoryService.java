@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class GetStudentStudentOrderHistoryService implements StudentOrderHistoryUseCase {
+public class GetStudentOrderHistoryService implements StudentOrderHistoryUseCase {
 
     private final RechargeOrderRepository rechargeOrderRepository;
 
