@@ -13,6 +13,7 @@ public interface StudentRepository {
     Student save(Student student);
     Optional<Student> findById(UUID id);
     Optional<Student> findByEmail(Email email);
+    void delete(UUID id);
     boolean existsByRegistrationNumber(RegistrationNumber registrationNumber);
     boolean existsByCpf(Cpf cpf);
     boolean existsByEmail(Email email);

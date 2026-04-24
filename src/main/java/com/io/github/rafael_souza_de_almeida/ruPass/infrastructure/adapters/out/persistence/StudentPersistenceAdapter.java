@@ -50,6 +50,12 @@ public class StudentPersistenceAdapter implements StudentRepository {
     }
 
     @Override
+    public void delete(UUID id) {
+        StudentEntity student = repository.findById(id).orElseThrow(() -> new StudentNotFoundException("Student not found"));
+        repository.delete(student);
+    }
+
+    @Override
     public boolean existsByRegistrationNumber(RegistrationNumber registrationNumber) {
         return repository.existsByRegistrationNumber(registrationNumber.value());
     }

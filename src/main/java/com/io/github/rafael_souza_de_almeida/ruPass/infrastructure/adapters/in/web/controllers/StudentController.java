@@ -1,9 +1,7 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.controllers;
 
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.CreateRechargeOrderUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.GetStudentWalletUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.StudentOrderHistoryUseCase;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.*;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.EditStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeOrderCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
@@ -31,7 +29,30 @@ public class StudentController {
 
     private final CreateRechargeOrderUseCase createRechargeOrderUseCase;
     private final StudentOrderHistoryUseCase studentOrderHistoryUseCase;
+    private final EditStudentUseCase editStudentUseCase;
+    private final DeleteStudentUseCase deleteStudentUseCase;
     private final GetStudentWalletUseCase getStudentWalletUseCase;
+
+    @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
+    @PatchMapping("/{studentId}")
+    public ResponseEntity<EditStudentResponse> editStudent(@PathVariable("studentId") UUID studentId, @RequestBody EditStudentRequest request) {
+
+        EditStudentCommand command = new EditStudentCommand(studentId, request.fullName(), request.email(), request.password());
+
+        Student student = editStudentUseCase.execute(command);
+
+        EditStudentResponse response = new EditStudentResponse(student.getId(), student.getFullName(), student.getEmail().value());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+
+    }
+
+    @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
+    @DeleteMapping("/{studentId}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable("studentId") UUID studentId) {
+        deleteStudentUseCase.execute(studentId);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
     @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
     @PostMapping("/{studentId}/orders")

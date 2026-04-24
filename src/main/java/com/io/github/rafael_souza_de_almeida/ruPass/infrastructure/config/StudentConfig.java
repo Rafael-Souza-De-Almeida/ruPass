@@ -1,12 +1,8 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.config;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.application.ports.out.PasswordHashPort;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.services.GetStudentOrderHistoryService;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.services.GetStudentWalletService;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.services.RegisterStudentService;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.GetStudentWalletUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.StudentOrderHistoryUseCase;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.services.*;
+import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.*;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.StudentValidator;
@@ -39,6 +35,16 @@ public class StudentConfig {
             StudentValidator validator,
             PasswordHashPort passwordHashPort) {
         return new RegisterStudentService(studentRepository, validator, passwordHashPort);
+    }
+
+    @Bean
+    public EditStudentUseCase editStudentUseCase(StudentRepository repository, PasswordHashPort passwordHasher, StudentValidator studentValidator) {
+        return new EditStudentService(repository, passwordHasher, studentValidator);
+    }
+
+    @Bean
+    public DeleteStudentUseCase deleteStudentUseCase(StudentRepository repository) {
+        return new DeleteStudentService(repository);
     }
 
     @Bean
