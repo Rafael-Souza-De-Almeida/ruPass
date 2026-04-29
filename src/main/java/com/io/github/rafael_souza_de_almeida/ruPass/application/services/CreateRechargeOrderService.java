@@ -24,7 +24,7 @@ public class CreateRechargeOrderService implements CreateRechargeOrderUseCase {
         Student student = studentRepository.findById(command.studentId())
                 .orElseThrow(() -> new StudentNotFoundException("Student Not found."));
 
-        BigDecimal totalAmount = ticketPricingService.calculateTotal(student.getStudentType(),
+        BigDecimal totalAmount = ticketPricingService.calculateTotal(
                 command.breakfastQuantity(),
                 command.lunchDinnerQuantity());
 

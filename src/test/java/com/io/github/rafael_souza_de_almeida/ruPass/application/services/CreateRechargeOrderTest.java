@@ -5,14 +5,12 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.StudentNot
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.OrderStatus;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.StudentType;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.TicketPricingService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

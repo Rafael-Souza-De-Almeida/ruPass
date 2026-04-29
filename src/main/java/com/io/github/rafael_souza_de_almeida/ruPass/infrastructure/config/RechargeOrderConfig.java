@@ -19,7 +19,7 @@ import java.util.List;
 public class RechargeOrderConfig {
 
     @Bean
-    public TicketPricingService ticketPricingService() {
+    public TicketPricingService ticketPricingService(){
         return new TicketPricingService();
     }
 

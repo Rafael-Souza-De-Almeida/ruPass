@@ -4,6 +4,7 @@ import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.Registe
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.dto.SignInRequest;
+import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.dto.SignInResponse;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.dto.SignUpRequest;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.web.dto.StudentRegistrationResponse;
 import com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out.security.JwtServiceAdapter;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -29,13 +32,15 @@ public class AuthenticationController {
     private final RegisterStudentUseCase registerStudentUseCase;
 
     @PostMapping("/sign_in")
-    public ResponseEntity<String> sign_in(@RequestBody SignInRequest request) {
+    public ResponseEntity<SignInResponse> sign_in(@RequestBody SignInRequest request) {
 
         var authToken = new UsernamePasswordAuthenticationToken(request.email(), request.password());
 
         Authentication authenticatedUser = authenticationManager.authenticate(authToken);
 
-        return ResponseEntity.status(HttpStatus.OK).body(jwtServiceAdapter.generateToken(authenticatedUser));
+        String token = jwtServiceAdapter.generateToken(authenticatedUser);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new SignInResponse(token));
 
     }
 
@@ -47,7 +52,7 @@ public class AuthenticationController {
                 request.email(),
                 request.password(),
                 request.registrationNumber(),
-                request.studentType(),
+                request.course(),
                 request.cpf()
         );
 

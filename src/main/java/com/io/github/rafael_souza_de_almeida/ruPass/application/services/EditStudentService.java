@@ -36,7 +36,7 @@ public class EditStudentService implements EditStudentUseCase {
             passwordObj = new Password(hashed);
         }
 
-        student.updateProfile(command.fullName(), emailObj, passwordObj);
+        student.updateProfile(command.fullName(), emailObj, passwordObj, command.photoUrl());
 
         return repository.save(student);
 

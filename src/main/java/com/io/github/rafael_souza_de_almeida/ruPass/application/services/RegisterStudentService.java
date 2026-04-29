@@ -4,6 +4,7 @@ import com.io.github.rafael_souza_de_almeida.ruPass.application.ports.out.Passwo
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.RegisterStudentUseCase;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Course;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
@@ -36,8 +37,9 @@ public class RegisterStudentService implements RegisterStudentUseCase {
                 email,
                 passwordEncoded,
                 registrationNumber,
-                command.studentType(),
-                cpf
+                cpf,
+                Course.valueOf(command.course())
+
         );
 
         return studentRepository.save(student);

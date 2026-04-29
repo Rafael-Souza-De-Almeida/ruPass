@@ -32,12 +32,29 @@ public class StudentController {
     private final EditStudentUseCase editStudentUseCase;
     private final DeleteStudentUseCase deleteStudentUseCase;
     private final GetStudentWalletUseCase getStudentWalletUseCase;
+    private final GetStudentUseCase getStudentUseCase;
+
+    @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
+    @GetMapping("/{studentId}/digital-id")
+    public ResponseEntity<DigitalIdResponse> getDigitalId(@PathVariable("studentId") UUID studentId) {
+
+        Student student = getStudentUseCase.execute(studentId);
+
+        DigitalIdResponse response = new DigitalIdResponse(
+                student.getFullName(),
+                student.getRegistrationNumber().value(),
+                student.getCourse().name(),
+                student.getPhotoUrl()
+        );
+
+        return ResponseEntity.ok(response);
+    }
 
     @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
     @PatchMapping("/{studentId}")
     public ResponseEntity<EditStudentResponse> editStudent(@PathVariable("studentId") UUID studentId, @RequestBody EditStudentRequest request) {
 
-        EditStudentCommand command = new EditStudentCommand(studentId, request.fullName(), request.email(), request.password());
+        EditStudentCommand command = new EditStudentCommand(studentId, request.fullName(), request.email(), request.password(), request.photoUrl());
 
         Student student = editStudentUseCase.execute(command);
 

@@ -32,11 +32,13 @@ public class StudentEntity {
     @Column(name = "registration_number", nullable = false, unique = true)
     private String registrationNumber;
 
-    @Column(name = "student_type", nullable = false)
-    private String studentType;
-
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
+
+    private String course;
+
+    @Column(name = "photo_url")
+    private String photoUrl;
 
     @Column(nullable = false)
     private String role;

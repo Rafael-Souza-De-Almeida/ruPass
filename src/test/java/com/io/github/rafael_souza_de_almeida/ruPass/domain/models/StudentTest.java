@@ -1,7 +1,6 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.EmptyRegistrationNumberException;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.StudentType;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;

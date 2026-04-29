@@ -2,8 +2,8 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.out
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Wallet;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Course;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Role;
-import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.StudentType;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
@@ -43,11 +43,11 @@ public class StudentPersistenceMapper {
                 emailDomain,
                 passwordDomain,
                 registrationNumberDomain,
-                StudentType.valueOf(studentEntity.getStudentType()),
                 walletDomain,
                 cpfDomain,
-                null,
-                Role.valueOf(studentEntity.getRole())
+                studentEntity.getPhotoUrl(),
+                Role.valueOf(studentEntity.getRole()),
+                Course.valueOf(studentEntity.getCourse())
         );
     }
 
@@ -62,8 +62,9 @@ public class StudentPersistenceMapper {
         entity.setPassword(domain.getPassword().value());
         entity.setEmail(domain.getEmail().value());
         entity.setRegistrationNumber(domain.getRegistrationNumber().value());
-        entity.setStudentType(domain.getStudentType().toString());
+        entity.setCourse(domain.getCourse().name());
         entity.setCpf(domain.getCpf().value());
+        entity.setPhotoUrl(domain.getPhotoUrl());
         entity.setRole(domain.getRole().toString());
 
 

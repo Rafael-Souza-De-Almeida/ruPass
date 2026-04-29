@@ -5,7 +5,6 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

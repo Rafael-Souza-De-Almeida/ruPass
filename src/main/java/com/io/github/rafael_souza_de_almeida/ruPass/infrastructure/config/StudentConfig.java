@@ -30,6 +30,11 @@ public class StudentConfig {
     }
 
     @Bean
+    public GetStudentUseCase getStudentUseCase(StudentRepository studentRepository) {
+        return new GetStudentService(studentRepository);
+    }
+
+    @Bean
     public RegisterStudentUseCase registerStudentUseCase(
             StudentRepository studentRepository,
             StudentValidator validator,

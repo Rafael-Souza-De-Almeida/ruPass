@@ -6,6 +6,7 @@ public record EditStudentRequest(
         UUID studentId,
         String fullName,
         String email,
-        String password
+        String password,
+        String photoUrl
 ) {
 }
