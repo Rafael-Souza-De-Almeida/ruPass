@@ -15,6 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class StudentConfig {
 
     @Bean
+    public GetStudentUseCase getStudentUseCase(StudentRepository studentRepository) {
+        return new GetStudentService(studentRepository);
+    }
+
+    @Bean
     public StudentValidator studentRegistrationValidator(StudentRepository studentRepository) {
         return new StudentValidator(studentRepository);
     }
@@ -30,8 +35,8 @@ public class StudentConfig {
     }
 
     @Bean
-    public GetStudentUseCase getStudentUseCase(StudentRepository studentRepository) {
-        return new GetStudentService(studentRepository);
+    public GetDigitalIdUseCase getDigitalIdUseCase(StudentRepository studentRepository) {
+        return new GetDigitalIdService(studentRepository);
     }
 
     @Bean

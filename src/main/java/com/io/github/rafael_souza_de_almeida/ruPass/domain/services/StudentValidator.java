@@ -1,10 +1,13 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.services;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.DuplicatedRegistrationException;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
+
+import java.util.UUID;
 
 public class StudentValidator {
 
@@ -30,7 +33,12 @@ public class StudentValidator {
 
     }
 
-    public void validateExistingStudent(Email email) {
+    public void validateExistingStudent(Email email, Student student) {
+
+        if(student.getEmail().value().equals(email.value())) {
+            return;
+        }
+
         if(studentRepository.existsByEmail(email)) {
             throw new DuplicatedRegistrationException("Email already registered");
         }

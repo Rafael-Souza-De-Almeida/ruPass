@@ -27,11 +27,11 @@ public class EditStudentService implements EditStudentUseCase {
         Email emailObj = null;
         if (command.email() != null && !command.email().isBlank()) {
             emailObj = new Email(command.email());
-            studentValidator.validateExistingStudent(emailObj);
+            studentValidator.validateExistingStudent(emailObj, student);
         }
 
         Password passwordObj = null;
-        if (command.password() != null && !command.password().isBlank()) {
+        if (command.password() != null && !command.password().isBlank() && command.password().length() >=8) {
             String hashed = passwordHasher.encode(command.password());
             passwordObj = new Password(hashed);
         }

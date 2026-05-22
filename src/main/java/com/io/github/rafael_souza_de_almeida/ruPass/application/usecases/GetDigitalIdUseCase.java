@@ -4,6 +4,6 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 
 import java.util.UUID;
 
-public interface GeDigitalIdUseCase {
+public interface GetDigitalIdUseCase {
     Student execute(UUID id);
 }

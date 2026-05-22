@@ -3,7 +3,6 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.*;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.EditStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RechargeOrderCommand;
-import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command.RegisterStudentCommand;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Wallet;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -32,13 +29,34 @@ public class StudentController {
     private final EditStudentUseCase editStudentUseCase;
     private final DeleteStudentUseCase deleteStudentUseCase;
     private final GetStudentWalletUseCase getStudentWalletUseCase;
+    private final GetDigitalIdUseCase getDigitalIdUseCase;
     private final GetStudentUseCase getStudentUseCase;
+
+    @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
+    @GetMapping("/{studentId}")
+    public ResponseEntity<StudentResponse> getStudent(@PathVariable("studentId") UUID studentId) {
+
+        Student student = getStudentUseCase.execute(studentId);
+
+        StudentResponse response = new StudentResponse(
+                studentId,
+                student.getFullName(),
+                student.getEmail().value(),
+                student.getRegistrationNumber().value(),
+                student.getCourse().name()
+        );
+
+        return ResponseEntity.ok(response);
+
+
+    }
+
 
     @PreAuthorize("@tokenValidator.isOwner(principal, #studentId)")
     @GetMapping("/{studentId}/digital-id")
     public ResponseEntity<DigitalIdResponse> getDigitalId(@PathVariable("studentId") UUID studentId) {
 
-        Student student = getStudentUseCase.execute(studentId);
+        Student student = getDigitalIdUseCase.execute(studentId);
 
         DigitalIdResponse response = new DigitalIdResponse(
                 student.getFullName(),

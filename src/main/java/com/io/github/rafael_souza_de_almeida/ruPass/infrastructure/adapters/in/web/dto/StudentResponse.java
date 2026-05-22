@@ -2,7 +2,7 @@ package com.io.github.rafael_souza_de_almeida.ruPass.infrastructure.adapters.in.
 
 import java.util.UUID;
 
-public record StudentResponsne(
+public record StudentResponse(
         UUID id,
         String fullName,
         String email,
