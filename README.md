@@ -73,7 +73,7 @@ A maneira mais fácil e rápida de rodar a aplicação completa (Banco de Dados,
 ### 1. Clone este repositório:
 
 ```text
-git clone [https://github.com/Rafael-Souza-De-Almeida/ruPass.git](https://github.com/Rafael-Souza-De-Almeida/ruPass.git)
+git clone https://github.com/Rafael-Souza-De-Almeida/ruPass
 ```
 
 ### 2. Acesse a pasta do projeto:
