@@ -1,6 +1,7 @@
 package com.io.github.rafael_souza_de_almeida.ruPass.domain.models;
 
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.EmptyRegistrationNumberException;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Course;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Password;
@@ -24,38 +25,26 @@ class StudentTest {
     @DisplayName("Should create a valid student and initialize an empty wallet")
     void shouldCreateValidStudent() {
         String name = "João Silva";
-        StudentType type = StudentType.UNDERGRADUATE;
+        Course course = Course.CIENCIA_DA_COMPUTACAO;
 
-        Student student = new Student(name, VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, type, VALID_CPF);
+        Student student = new Student(name, VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, VALID_CPF, course);
 
         assertThat(student.getId()).isNotNull();
         assertThat(student.getFullName()).isEqualTo(name);
         assertThat(student.getEmail()).isEqualTo(VALID_EMAIL);
         assertThat(student.getPassword()).isEqualTo(VALID_PASSWORD);
         assertThat(student.getRegistrationNumber()).isEqualTo(VALID_REGISTRATION);
-        assertThat(student.getStudentType()).isEqualTo(type);
         assertThat(student.getCpf().value()).isEqualTo(VALID_CPF.value());
+        assertThat(student.getCourse()).isEqualTo(course);
         assertThat(student.getWallet()).isNotNull();
         assertThat(student.getWallet().getStudentId()).isEqualTo(student.getId());
-    }
-
-    @Test
-    @DisplayName("Should register face biometrics correctly")
-    void shouldRegisterFaceBiometrics() {
-        Student student = new Student("João Silva", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, VALID_CPF);
-        String token = "some-biometric-token-123";
-
-        student.registerFaceBiometrics(token);
-
-        assertThat(student.getFaceBiometrics()).isNotNull();
-        assertThat(student.getFaceBiometrics().getToken()).isEqualTo(token);
     }
 
     @Test
     @DisplayName("Should use the provided ID when using the full constructor")
     void shouldCreateStudentWithSpecificId() {
         UUID customId = UUID.randomUUID();
-        Student student = new Student(customId, "Ana Souza", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, null, null, null, null);
+        Student student = new Student(customId, "Ana Souza", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, null, null, null, null, null);
 
         assertThat(student.getId()).isEqualTo(customId);
     }
@@ -63,11 +52,14 @@ class StudentTest {
     @Test
     @DisplayName("Should throw exception when name is empty or only spaces")
     void shouldThrowExceptionWhenNameIsEmpty() {
-        assertThatThrownBy(() -> new Student("", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, VALID_CPF))
+
+        Course course = Course.ADMINISTRACAO;
+
+        assertThatThrownBy(() -> new Student("", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, VALID_CPF, course))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Name cannot be blank.");
 
-        assertThatThrownBy(() -> new Student("   ", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, VALID_CPF))
+        assertThatThrownBy(() -> new Student("   ", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, VALID_CPF, course))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Name cannot be blank.");
     }

@@ -4,6 +4,7 @@ import com.io.github.rafael_souza_de_almeida.ruPass.application.usecases.command
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.exceptions.StudentNotFoundException;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.RechargeOrder;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.Student;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.Course;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.enums.OrderStatus;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Cpf;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.Email;
@@ -11,6 +12,7 @@ import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.P
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.models.valueobjects.RegistrationNumber;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.RechargeOrderRepository;
 import com.io.github.rafael_souza_de_almeida.ruPass.domain.repository.StudentRepository;
+import com.io.github.rafael_souza_de_almeida.ruPass.domain.services.TicketPricingService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +52,7 @@ public class CreateRechargeOrderTest {
     @DisplayName("Should create a recharge order sucessfully")
     void shouldCreateARechargeOrderSuccessfully(){
 
-        Student student = new Student("Maria", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, StudentType.UNDERGRADUATE, VALID_CPF);
+        Student student = new Student("Maria", VALID_EMAIL, VALID_PASSWORD, VALID_REGISTRATION, VALID_CPF, Course.ADMINISTRACAO);
 
         UUID studentId = student.getId();
 
@@ -59,7 +61,7 @@ public class CreateRechargeOrderTest {
         BigDecimal expectedValue = new BigDecimal("14.50");
 
         when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
-        when(ticketPricingService.calculateTotal(student.getStudentType(), 0, 10)).thenReturn(expectedValue);
+        when(ticketPricingService.calculateTotal(0, 10)).thenReturn(expectedValue);
 
         RechargeOrder createdOrder = createRechargeOrderService.execute(command);
 
@@ -91,7 +93,7 @@ public class CreateRechargeOrderTest {
 
 
         verify(rechargeOrderRepository, never()).save(any(RechargeOrder.class));
-        verify(ticketPricingService, never()).calculateTotal(any(), anyInt(), anyInt());
+        verify(ticketPricingService, never()).calculateTotal(anyInt(), anyInt());
     }
 
 }
