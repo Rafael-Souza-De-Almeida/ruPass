@@ -22,6 +22,10 @@ Login e controle de sessão gerenciados via tokens JWT.
 ### Histórico de compras
 <img width="1271" height="301" alt="image" src="https://github.com/user-attachments/assets/469cdb07-ecd4-4a0a-a417-bc881f129adb" />
 
+### Edição e exclusão da conta
+<img width="1608" height="836" alt="image" src="https://github.com/user-attachments/assets/662a8566-0dfd-4fa7-916b-96341adfd084" />
+
+
 ---
 
 ## 🛠️ Tecnologias Utilizadas
