@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: rupass-db
+    restart: always
+    environment:
+      POSTGRES_USER: rupass_user
+      POSTGRES_PASSWORD: rupass_password
+      POSTGRES_DB: rupass_database
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: rupass-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/rupass_database
+      - SPRING_DATASOURCE_USERNAME=rupass_user
+      - SPRING_DATASOURCE_PASSWORD=rupass_password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  frontend:
+    build: ./frontend
+    container_name: rupass-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+
+volumes:
+  pgdata:
